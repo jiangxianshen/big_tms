@@ -83,7 +83,7 @@
         		<td style="border: #000000 solid 1px;"><?= $doc->container_no == '' ? '-' : $doc->container_no;?></td>
         		<td style="border: #000000 solid 1px;"><?= $doc->police_no;?></td>
         		<td style="border: #000000 solid 1px;"><?= $doc->type_name;?></td>
-        		<td style="border: #000000 solid 1px;" align="right"><?= number_format($doc->advance_amount,0,',','.');?></td>
+        		<td style="border: #000000 solid 1px;" align="right"><?= number_format($doc->advance_amount);?></td>
         	</tr>
 	<?php 
         }
