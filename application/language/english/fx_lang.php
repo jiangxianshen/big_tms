@@ -167,7 +167,6 @@ $lang['realizations'] = 'Realization List';
 $lang['realizations_branch'] = 'Realization List (Branch)';
 $lang['realization_list_branch'] = 'Realization List (Branch)';
 $lang['delete_realization'] = 'Delete Realization';
-$lang['realization_no'] = 'Realization No';
 $lang['cash_advance_total'] = 'Cash Advance Total';
 $lang['realization_total'] = 'Realization Total';
 $lang['realization_deleted_successfully'] =
@@ -1622,7 +1621,6 @@ $lang['party_name'] = 'Party Name';
 $lang['vessel_details'] = 'Vessel Details';
 $lang['vessel_ref'] = 'Vessel Reference';
 $lang['vessel_init'] = 'Vessel Initial';
-$lang['vessel_name'] = 'Vessel Name';
 $lang['vessel_created_successfully'] = 'Vessel Created Successfully';
 $lang['vessel_edited_successfully'] = 'Vessel Edited Successfully';
 $lang['po_date'] = 'PO Date';
@@ -2383,6 +2381,11 @@ $lang['utility_vehicle'] = 'Vehicle Utility';
 $lang['utility_vehicles'] = 'Vehicle Utilities';
 
 /* END Report Utility Vehicles */
+
+/* Report Realization Document */
+$lang['realization_document_report'] = 'Realization Document Report';
+
+/* END Report Realization Document */
 
 /* Job Order By Vessel */
 $lang['job_order_vessel'] = 'Job Order By Vessel';
