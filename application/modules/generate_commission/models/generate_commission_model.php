@@ -329,7 +329,7 @@ class Generate_commission_model extends CI_Model
     }
     
     function get_field_cost_by_comm_detail($comm_no,$until_date){
-		$sql = "SELECT b.*, d.descs as cost_name, f.police_no
+		$sql = "SELECT DISTINCT b.*, d.descs as cost_name, f.police_no
                 FROM (`tr_do_trx` as a) LEFT JOIN `tr_cost_trx` as b ON `b`.`trx_no` = `a`.`trx_no` 
 										LEFT JOIN `sa_users` as c ON `c`.`rowID` = `a`.`user_created`
 										LEFT JOIN `sa_cost` as d ON `d`.`rowID` = `b`.`cost_rowID`
@@ -348,7 +348,7 @@ class Generate_commission_model extends CI_Model
     }
     
     function get_field_cost_by_comm_detail_departement($comm_no,$until_date,$departement_id){
-		$sql = "SELECT b.*, d.descs as cost_name, f.police_no
+		$sql = "SELECT DISTINCT b.*, d.descs as cost_name, f.police_no
                 FROM (`tr_do_trx` as a) LEFT JOIN `tr_cost_trx` as b ON `b`.`trx_no` = `a`.`trx_no` 
 										LEFT JOIN `sa_users` as c ON `c`.`rowID` = `a`.`user_created`
 										LEFT JOIN `sa_cost` as d ON `d`.`rowID` = `b`.`cost_rowID`
