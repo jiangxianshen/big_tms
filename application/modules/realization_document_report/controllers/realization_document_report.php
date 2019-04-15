@@ -80,7 +80,7 @@ class Realization_document_report extends MX_Controller
             }
             else{
                 header("Content-type: application/octet-stream");
-                header("Content-Disposition: attachment; filename=report_realization_document_report.xls");
+                header("Content-Disposition: attachment; filename=realization_document_report.xls");
                 
                 $this->load->view("realization_document_report_pdf", $data);
             }

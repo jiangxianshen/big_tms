@@ -2387,6 +2387,11 @@ $lang['realization_document_report'] = 'Realization Document Report';
 
 /* END Report Realization Document */
 
+/* Report Ritase */
+$lang['ritase_report'] = 'Ritase Report';
+
+/* END Report Ritase */
+
 /* Job Order By Vessel */
 $lang['job_order_vessel'] = 'Job Order By Vessel';
 $lang['job_order_vessels'] = 'Job Order By Vessel';
