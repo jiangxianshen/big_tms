@@ -108,6 +108,48 @@ class Invoice extends MX_Controller
         $this->pdf_generator->generate($html, 'invoice pdf',$orientation='Portrait');
     }
     
+    function print_invoice_excel($trx_no){
+        $data['get_data'] = $this->invoice_model->get_all_record_data_by_trx_no($trx_no);
+        $data['get_data_detail'] = $this->invoice_model->get_all_data_by_trx_no($trx_no);
+       
+        $sql_update = "UPDATE ar_trx_hdr 
+                        SET printed = printed + 1, user_printed = ".$this->session->userdata('user_rowID').",
+                            date_printed = '".date('Y-m-d')."', time_printed = '".date('H:i:s')."'
+                        WHERE trx_no = '".$trx_no."'";
+        
+        $this->db->query($sql_update);
+        
+        $get_data = $this->invoice_model->get_data_header_by_trx_no($trx_no);
+        
+        $params['user_rowID'] = $this->tank_auth->get_user_id();
+		$params['module'] = 'Invoice';
+		$params['module_field_id'] = $get_data->rowID;
+		$params['activity'] = ucfirst('Print a Invoice No. '.$trx_no);
+		$params['icon'] = 'fa-print';
+		modules::run('activitylog/log',$params); //log activity	
+        
+        if($data['get_data']->invoice_type == 'M'){
+            $data['data_do'] = $this->invoice_model->get_data_do_manual_by_trx_no($trx_no);   
+            // $html = $this->load->view('invoice_manual_pdf', $data, true);            
+            $html = 'invoice_manual_pdf';            
+        } 
+        else if($data['get_data']->invoice_type == 'J'){
+            $data['data_do'] = $this->invoice_model->get_data_delivery_order_by_jo_trx_no($trx_no);
+            // $html = $this->load->view('invoice_pdf', $data, true);
+            $html = 'invoice_pdf';            
+        } 
+        else if($data['get_data']->invoice_type == 'A'){
+            $data['data_do'] = $this->invoice_model->get_data_delivery_order_by_ap_trx_no($trx_no);
+            // $html = $this->load->view('invoice_pdf', $data, true);
+            $html = 'invoice_pdf';            
+        } 
+        
+        // $this->pdf_generator->generate($html, 'invoice pdf',$orientation='Portrait');
+        header("Content-type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=invoice_report.xls");
+        
+        $this->load->view($html, $data);    }
+    
     function get_wth(){
         error_reporting(E_ALL);
         Header('Content-Type: application/json; charset=UTF8');
@@ -1483,10 +1525,12 @@ class Invoice extends MX_Controller
                     if($this->get_user_access('PrintLimited') == 1 || $this->get_user_access('PrintUnlimited') == 1 || $this->get_user_access('PrintOne') == 1 || $this->get_user_access('PrintTwo') == 1){
                         if($this->get_user_access('PrintLimited') == 1){
                             if($this->get_log_limited_printed($aRow['trx_no'],'invoice') == 0){
-                                $dropdown_option .= '<li><a  href="javascript:void()" title="' . lang('reprint') . '" onclick="reprint_invoice(\'' . $aRow['trx_no'] . '\')"><i class="fa fa-print"></i> ' . lang('reprint') . '</a></li>';
+                                $dropdown_option .= '<li><a  href="javascript:void()" title="' . lang('reprint') . ' (PDF)" onclick="reprint_invoice(\'' . $aRow['trx_no'] . '\')"><i class="fa fa-file-pdf-o"></i> ' . lang('reprint') . ' (PDF)</a></li>';
+                                $dropdown_option .= '<li><a  href="javascript:void()" title="' . lang('reprint') . ' (Excel)" onclick="reprint_invoice_excel(\'' . $aRow['trx_no'] . '\')"><i class="fa fa-file-excel-o"></i> ' . lang('reprint') . ' (Excel)</a></li>';
                             }
                         }else{
-                            $dropdown_option .= '<li><a  href="javascript:void()" title="' . lang('reprint') . '" onclick="reprint_invoice(\'' . $aRow['trx_no'] . '\')"><i class="fa fa-print"></i> ' . lang('reprint') . '</a></li>';
+                            $dropdown_option .= '<li><a  href="javascript:void()" title="' . lang('reprint') . ' (PDF)" onclick="reprint_invoice(\'' . $aRow['trx_no'] . '\')"><i class="fa fa-file-pdf-o"></i> ' . lang('reprint') . ' (PDF)</a></li>';
+                            $dropdown_option .= '<li><a  href="javascript:void()" title="' . lang('reprint') . ' (Excel)" onclick="reprint_invoice_excel(\'' . $aRow['trx_no'] . '\')"><i class="fa fa-file-excel-o"></i> ' . lang('reprint') . ' (Excel)</a></li>';
                         }
                     }
                                     

@@ -747,4 +747,8 @@ $(function() {
             $("#end_date").blur();
         });
     });
+        
+    function reprint_invoice_excel(trx_no){
+        window.open('<?php echo base_url('invoice/print_invoice_excel')?>/'+trx_no);
+    }
 </script>
