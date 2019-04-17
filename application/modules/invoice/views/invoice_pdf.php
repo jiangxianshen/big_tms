@@ -261,7 +261,7 @@
             <tr style="font-size:12px;">
         		<td align="center" style="border-left:#000 solid 1px;border-right:#000 solid 1px;<?=$border_bottom?>"><?= $i++;?></td>
         		<td style="border-right:#000 solid 1px;<?=$border_bottom?>"><?= $val->descs.' '.$description;?></td>
-        		<td align="right" style="border-right:#000 solid 1px;<?=$border_bottom?>"><?= number_format($val->base_amt,2,',','.');?></td>
+        		<td align="right" style="border-right:#000 solid 1px;<?=$border_bottom?>"><?= number_format($val->base_amt);?></td>
         	</tr>
 	<?php 
         }
@@ -271,15 +271,15 @@
 <table width="100%" border="0" align="center" cellpadding="2" cellspacing="0">
 	<tr>
         <th align="right" width="80%" style="border:#000 solid 1px;">Total (Rp)</th>
-        <td align="right" width="20%" align="right" style="border:#000 solid 1px;"><?= number_format($total_price_amount,2,',','.');?></td>
+        <td align="right" width="20%" align="right" style="border:#000 solid 1px;"><?= number_format($total_price_amount);?></td>
 	</tr>
 	<tr>
         <th align="right" width="80%" style="border:#000 solid 1px;">PPN 10% (Rp)</th>
-        <td align="right" width="20%" align="right" style="border:#000 solid 1px;"><?= number_format($total_ppn,2,',','.');?></td>
+        <td align="right" width="20%" align="right" style="border:#000 solid 1px;"><?= number_format($total_ppn);?></td>
 	</tr>
 	<tr>
         <th align="right" width="80%" style="border:#000 solid 1px;">Grand Total (Rp)</th>
-        <td align="right" width="20%" align="right" style="border:#000 solid 1px;"><?= number_format($grand_total,2,',','.');?></td>
+        <td align="right" width="20%" align="right" style="border:#000 solid 1px;"><?= number_format($grand_total);?></td>
 	</tr>
 	<tr>
         <td colspan="2" style="border:#000 solid 1px;">
@@ -570,9 +570,9 @@
         			<td align="left" style="border-right:#000 solid 1px;<?=$border_bottom?>"><?=date("d-m-Y",strtotime($row->do_date))?></td>
         			<td align="left" style="border-right:#000 solid 1px;<?=$border_bottom?>"><?= $row->jo_type == 1 ? '-' : $container_size ?></td>
         			<td align="left" style="border-right:#000 solid 1px;<?=$border_bottom?>"><?= $row->container_no == '' ? '-' : $row->container_no?></td>
-        			<td align="left" style="border-right:#000 solid 1px;<?=$border_bottom?>"><?= number_format($qty,2,',','.')?></td>	
-        			<td align="right" style="border-right:#000 solid 1px;<?=$border_bottom?>"><?= number_format($price,2,',','.')?></td>	
-        			<td align="right" style="border-right:#000 solid 1px;<?=$border_bottom?>"><?= number_format($price_amount,2,',','.')?></td>	
+        			<td align="left" style="border-right:#000 solid 1px;<?=$border_bottom?>"><?= number_format($qty)?></td>	
+        			<td align="right" style="border-right:#000 solid 1px;<?=$border_bottom?>"><?= number_format($price)?></td>	
+        			<td align="right" style="border-right:#000 solid 1px;<?=$border_bottom?>"><?= number_format($price_amount)?></td>	
         		</tr>
         <?php 
                 if($i <= 20){
@@ -648,9 +648,9 @@
         
 	<tr>
         <th colspan="<?=$colspan?>" align="right" style="border:#000 solid 1px;">Total (Rp) &nbsp; </th>
-        <th width="8%" align="left" style="border:#000 solid 1px;"><?= number_format($total_qty,2,',','.');?></th>
-        <th width="8%" align="right" style="border:#000 solid 1px;"><?= number_format($total_price,2,',','.');?></th>
-        <th width="11%" align="right" style="border:#000 solid 1px;"><?= number_format($total_amount,2,',','.');?></th>
+        <th width="8%" align="left" style="border:#000 solid 1px;"><?= number_format($total_qty);?></th>
+        <th width="8%" align="right" style="border:#000 solid 1px;"><?= number_format($total_price);?></th>
+        <th width="11%" align="right" style="border:#000 solid 1px;"><?= number_format($total_amount);?></th>
 	</tr>
 </table>
 
