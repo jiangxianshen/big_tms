@@ -764,11 +764,11 @@ class job_order extends MX_Controller {
             $dt['id'] = 'year';
 
             $aColumnTable = array(
-                'tr_jo_trx_hdr.year', 'tr_jo_trx_hdr.jo_no', 'tr_jo_trx_hdr.jo_date', 'sa_debtor.debtor_cd', 'tr_jo_trx_hdr.po_spk_no', 'tr_jo_trx_hdr.so_no', 'tr_jo_trx_hdr.vessel_no', 'sa_port.port_cd', 'sa_fare_trip_hdr.fare_trip_cd', 'sa_fare_trip_hdr.fare_trip_cd', 'sa_item.item_name', 'tr_jo_trx_hdr.status', 'sa_debtor.debtor_name', 'tr_jo_trx_hdr.vessel_name', 'sa_port.port_name', 'tr_jo_trx_hdr.invoice_no', 'tr_jo_trx_hdr.code', 'tr_jo_trx_hdr.month', 'tr_jo_trx_hdr.price_amount'
+                'tr_jo_trx_hdr.jo_no', 'tr_jo_trx_hdr.jo_date', 'sa_debtor.debtor_cd', 'tr_jo_trx_hdr.po_spk_no', 'tr_jo_trx_hdr.so_no', 'tr_jo_trx_hdr.vessel_no','sa_port.port_cd', 'sa_fare_trip_hdr.fare_trip_cd', 'tr_jo_trx_hdr.price_amount', 'sa_item.item_name', 'sa_reference.type_name', 'tr_jo_trx_hdr.status'
             );
 
             $aColumns = array(
-                'tr_jo_trx_hdr.year', 'tr_jo_trx_hdr.jo_no', 'tr_jo_trx_hdr.jo_date', 'sa_debtor.debtor_cd', 'tr_jo_trx_hdr.po_spk_no', 'tr_jo_trx_hdr.so_no', 'tr_jo_trx_hdr.vessel_no', 'sa_port.port_cd', 'sa_fare_trip_hdr.fare_trip_cd', 'sa_fare_trip_hdr.fare_trip_cd', 'sa_item.item_name', 'tr_jo_trx_hdr.status', 'sa_debtor.debtor_name', 'tr_jo_trx_hdr.vessel_name', 'sa_port.port_name', 'tr_jo_trx_hdr.invoice_no', 'tr_jo_trx_hdr.code', 'tr_jo_trx_hdr.month', 'tr_jo_trx_hdr.price_amount'
+                'tr_jo_trx_hdr.year', 'tr_jo_trx_hdr.jo_no', 'tr_jo_trx_hdr.jo_date', 'sa_debtor.debtor_cd', 'tr_jo_trx_hdr.po_spk_no', 'tr_jo_trx_hdr.so_no', 'tr_jo_trx_hdr.vessel_no', 'sa_port.port_cd', 'sa_fare_trip_hdr.fare_trip_cd', 'sa_fare_trip_hdr.fare_trip_cd', 'sa_item.item_name', 'sa_reference.type_name', 'tr_jo_trx_hdr.status', 'sa_debtor.debtor_name', 'tr_jo_trx_hdr.vessel_name', 'sa_port.port_name', 'tr_jo_trx_hdr.invoice_no', 'tr_jo_trx_hdr.code', 'tr_jo_trx_hdr.month', 'tr_jo_trx_hdr.price_amount', 'tr_jo_trx_hdr.price_20ft', 'tr_jo_trx_hdr.price_40ft', 'tr_jo_trx_hdr.price_45ft', 'tr_jo_trx_hdr.jo_type'
             );
 
             $groupBy = '';
@@ -781,7 +781,7 @@ class job_order extends MX_Controller {
 
             /** Ordering * */
             $sOrder = " ORDER BY ";
-            $sOrderIndex = $dt['order'][0]['column'];
+            $sOrderIndex = $dt['order'][0]['column'] - 1;
             $sOrderDir = $dt['order'][0]['dir'];
             $bSortable_ = $dt['columns'][$sOrderIndex]['orderable'];
             if ($bSortable_ == "true") {
@@ -805,14 +805,14 @@ class job_order extends MX_Controller {
                 }
             }
 
-            if (!empty($dt['columns'][12]['search']['value'])) {
+            if (!empty($dt['columns'][13]['search']['value'])) {
                 if ($sWhere == "") {
                     $sWhere = " WHERE ";
                 } else {
                     $sWhere .= " AND ";
                 }
 
-                $start_date = date('Y-m-d', strtotime($dt['columns'][12]['search']['value']));
+                $start_date = date('Y-m-d', strtotime($dt['columns'][13]['search']['value']));
                 $this->session->set_userdata('start_date_job_order',date("Y-m-d",strtotime($start_date)));
 
                 if($this->session->userdata('end_date_job_order') == ''){
@@ -825,14 +825,14 @@ class job_order extends MX_Controller {
                 $sWhere.= ' tr_jo_trx_hdr.deleted = 0 ' . $str_between; 
             }
 
-            if (!empty($dt['columns'][13]['search']['value'])) {
+            if (!empty($dt['columns'][14]['search']['value'])) {
                 if ($sWhere == "") {
                     $sWhere = " WHERE ";
                 } else {
                     $sWhere .= " AND ";
                 }
 
-                $end_date = date('Y-m-d', strtotime($dt['columns'][13]['search']['value']));
+                $end_date = date('Y-m-d', strtotime($dt['columns'][14]['search']['value']));
                 $this->session->set_userdata('end_date_job_order', date("Y-m-d",strtotime($end_date)));
 
                 if($this->session->userdata('start_date_job_order') == ''){
@@ -934,7 +934,28 @@ class job_order extends MX_Controller {
                         $dropdown_status .= '<li><a href="javascript:void()" title="Close" onclick="edit_status_jo(\'' . $aRow['year'] . '\',\'' . $aRow['month'] . '\',\'' . $aRow['code'] . '\',\'' . '2' . '\')">Close</a></li>';
                     }
                     $dropdown_status .= '</ul></div>';
-              
+			  
+					if($aRow['jo_type'] == 1){
+						$jo_type = $aRow['type_name'];
+					}
+					else if($aRow['jo_type'] == 2){
+						$size_container = '';
+						if($aRow['price_20ft'] > 0){
+							$size_container = '20 FT';
+						}
+						if($aRow['price_40ft'] > 0){
+							$size_container = '40 FT';
+						}
+						if($aRow['price_45ft'] > 0){
+							$size_container = '45 FT';
+						}
+
+						$jo_type = $aRow['type_name'] . ' - ' . $size_container;
+					}
+					else{
+						$jo_type = $aRow['type_name'];
+					}
+				
                     $row['dropdown_option'] = $dropdown_option;
                     $row['jo_no'] = $aRow['jo_no'];
                     $row['jo_date'] = date("d F Y",strtotime($aRow['jo_date']));
@@ -945,6 +966,7 @@ class job_order extends MX_Controller {
                     $row['port'] = $aRow['port_cd'] . ' - ' . $aRow['port_name'];
                     $row['fare_trip_cd'] = $aRow['fare_trip_cd'];
                     $row['item_name'] = $aRow['item_name'];
+                    $row['jo_type'] = $jo_type;
                     $row['price_amount'] = number_format($aRow['price_amount'],0);
                     $row['dropdown_status'] = $dropdown_status;
 

@@ -50,6 +50,7 @@
                                 <th><?=lang('fare_trip')?> </th>
                                 <th><?=lang('price')?> </th>
                                 <th><?=lang('item')?> </th>
+                                <th><?=lang('type')?> </th>
                                 <th><?=lang('status')?></th>
 
                                 <!-- For Filter -->
@@ -146,6 +147,9 @@ $(function() {
                     "data": "item_name"
                 },
                 {
+                    "data": "jo_type"
+                },
+                {
                     "data": "dropdown_status"
                 },
                 {
@@ -170,12 +174,12 @@ $(function() {
         });
         $(".start_date").on("dp.change", function (e) {
             var start_date = $("#start_date").val();
-            table_job_order.columns(12).search(start_date).draw();
+            table_job_order.columns(13).search(start_date).draw();
             $("#start_date").blur();
         });
         $(".end_date").on("dp.change", function (e) {
             var end_date = $("#end_date").val();
-            table_job_order.columns(13).search(end_date).draw();
+            table_job_order.columns(14).search(end_date).draw();
             $("#end_date").blur();
         });
     });
